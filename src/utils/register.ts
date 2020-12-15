@@ -28,7 +28,7 @@ export const register = async (userDetails: UserDetails) => {
     pool.query(`SELECT * FROM users
                 WHERE email = ${userDetails.email}`, (err, results) => {
                     if (err) {
-                        throw {message: err.message};
+                        throw [err];
                     }
                     else{
                         console.log(results.rows)
@@ -41,7 +41,7 @@ export const register = async (userDetails: UserDetails) => {
                                     VALUES (${userDetails.name}, ${userDetails.email}, ${hashedPassword}
                                     RETURNING id, password`, (err, results) => {
                                         if (err) {
-                                            throw {message: err.message};
+                                            throw [err];
                                         }
                                         console.log(results.rows);
                                     })
