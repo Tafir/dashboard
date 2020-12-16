@@ -24,9 +24,8 @@ export const register = async (userDetails: UserDetails) => {
     if (validationErrors.length > 0) { throw validationErrors; }
 
     const hashedPassword = await bcrypt.hash(userDetails.password, 10);
-    console.log(hashedPassword);
     pool.query(`SELECT * FROM users
-                WHERE email = ${userDetails.email}`, (err, results) => {
+                WHERE email = '${userDetails.email}'`, (err, results) => {
                     if (err) {
                         throw [err];
                     }
@@ -36,18 +35,16 @@ export const register = async (userDetails: UserDetails) => {
                         if (results.rows.length > 0) {
                             throw { message: "User already registered" }
                         }
-
                         pool.query(`INSERT INTO users (name, email, password)
-                                    VALUES (${userDetails.name}, ${userDetails.email}, ${hashedPassword}
+                                    VALUES ('${userDetails.name}', '${userDetails.email}', '${hashedPassword}')
                                     RETURNING id, password`, (err, results) => {
                                         if (err) {
                                             throw [err];
                                         }
                                         console.log(results.rows);
+                                        console.log(`${userDetails.email} is registered!`);
                                     })
                     }
                 })
-
-    console.log(`${userDetails.email} is registered!`);
 
 }
