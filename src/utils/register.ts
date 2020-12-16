@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 
-import { pool } from '../utils/postgres';
+import { client } from '../utils/postgres';
 import { UserDetails } from '../interfaces/userDetails';
 
 const checkForValidationErrors = ({ name, email, password, confirmPassword }: UserDetails) => {
@@ -24,27 +24,25 @@ export const register = async (userDetails: UserDetails) => {
     if (validationErrors.length > 0) { throw validationErrors; }
 
     const hashedPassword = await bcrypt.hash(userDetails.password, 10);
-    pool.query(`SELECT * FROM users
-                WHERE email = '${userDetails.email}'`, (err, results) => {
-                    if (err) {
-                        throw [err];
-                    }
-                    else{
-                        console.log(results.rows)
 
-                        if (results.rows.length > 0) {
-                            throw { message: "User already registered" }
-                        }
-                        pool.query(`INSERT INTO users (name, email, password)
-                                    VALUES ('${userDetails.name}', '${userDetails.email}', '${hashedPassword}')
-                                    RETURNING id, password`, (err, results) => {
-                                        if (err) {
-                                            throw [err];
-                                        }
-                                        console.log(results.rows);
-                                        console.log(`${userDetails.email} is registered!`);
-                                    })
-                    }
-                })
+    const databaseErrors: Error[] = [];
 
+    await client
+        .connect()
+        .catch( err => {
+            console.error("Database connection error", err.stack);
+            databaseErrors.push(err);
+        });
+
+    await client
+        .query(`INSERT INTO users (name, email, password) 
+                VALUES ('${userDetails.name}', '${userDetails.email}', '${hashedPassword}')`)
+        .then( () => { console.log(`${userDetails.email} is registered!`); })
+        .catch( err => { 
+            console.error("Insertion error", err.stack);
+            databaseErrors.push(err);
+        })
+        .finally( () => { client.end() });
+        
+    if (databaseErrors.length > 0) { throw databaseErrors; }
 }
