@@ -3,6 +3,11 @@ import bodyParser from "body-parser";
 import path from "path";
 import session from "express-session";
 import flash from "express-flash";
+import passport from "passport";
+
+import initialisePassport from './passportConfig';
+
+initialisePassport(passport);
 
 import IndexRouter from './routes/index.routes';
 import AuthRouter from './routes/auth.routes';
@@ -18,7 +23,10 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-}))
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(flash());
 

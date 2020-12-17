@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
+import { Client } from 'pg';
 
-import { client } from '../utils/postgres';
+import { clientConfig } from '../utils/postgres';
 import { UserDetails } from '../interfaces/userDetails';
 
 const checkForValidationErrors = ({ name, email, password, confirmPassword }: UserDetails) => {
@@ -26,6 +27,8 @@ export const register = async (userDetails: UserDetails) => {
     const hashedPassword = await bcrypt.hash(userDetails.password, 10);
 
     const databaseErrors: Error[] = [];
+
+    const client = new Client(clientConfig);
 
     await client
         .connect()

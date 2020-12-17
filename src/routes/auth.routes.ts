@@ -1,4 +1,5 @@
 import express from 'express';
+import passport from 'passport';
 
 import { register } from '../utils/register'
 
@@ -22,5 +23,10 @@ Router.post("/users/register", async ( req, res ) => {
 Router.get("/users/login", ( req, res ) => {
     res.render("login");
 });
+
+Router.post("/users/login", passport.authenticate('local', {
+    successRedirect: "/",
+    failureRedirect: "/users/login",
+}));
 
 export default Router;
