@@ -1,4 +1,5 @@
 import express from 'express';
+import { authorisationMiddleware } from '../middleware/authorisation';
 
 import { login } from '../utils/login';
 import { register } from '../utils/register'
@@ -25,19 +26,36 @@ Router.post("/users/register", async (req, res) => {
 Router.post("/users/login", async (req, res) => {
     try {
         const { email, password } = req.body;
-        const jwtToken = await login(email, password);
+        const jwtTokenAndUser = await login(email, password);
 
         res.send({
             status: "success",
+            message: "You have been successfully logged in",
             data: {
-                message: "You have been successfully logged in",
-                token: jwtToken
+                ...jwtTokenAndUser
             }});
     }
     catch (err) {
         res.send({
             status: "error",
             message: "Login failed",
+            data: err
+        });
+    }
+})
+
+Router.get("/users/authorise", authorisationMiddleware, (req,res) => {
+    try {
+        res.send({
+            status: "success",
+            message: "Authorisation successful",
+            data: { authorised: true }
+        })
+    }
+    catch (err) {
+        res.send({
+            status: "error",
+            message: "Authorisation failed",
             data: err
         });
     }

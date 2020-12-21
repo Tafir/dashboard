@@ -10,6 +10,10 @@ export const login = async (email: string, password: string) => {
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) { throw {message:"Invalid password"}; }
 
-    return jwtGenerator(user.id);
+    return {
+        token: jwtGenerator(user.id),
+        name: user.name,
+        email: user.email
+    };
 }
 
