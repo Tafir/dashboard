@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
@@ -9,8 +9,30 @@ import { Dashboard } from "./components/dashboard/dashboard"
 import './App.css';
 
 const App = () => {
+  const checkAuthenticated = async () => {
+    try {
+      const res = await fetch("http://localhost:8080/users/authorise", {
+        headers: {  token: localStorage.token }
+      });
+
+      const parseRes = await res.json();
+      console.log(parseRes);
+      parseRes.status === "success" ? setIsAuthenticated(true) : setIsAuthenticated(false);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  useEffect(() => {
+    checkAuthenticated();
+  }, []);
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  const setAuth = (boolean: boolean) => {
+    setIsAuthenticated(boolean);
+  };
+  
   return (
     <div>
       <BrowserRouter>
@@ -32,7 +54,7 @@ const App = () => {
             path="/login" 
             render={() => 
               !isAuthenticated ?
-              (<LoginForm/>) :
+              (<LoginForm setAuth={setAuth}/>) :
               (<Redirect to="/dashboard"/>)
             }
           />
@@ -40,7 +62,7 @@ const App = () => {
             path="/dashboard" 
             render={() => 
               isAuthenticated ?
-              (<Dashboard/>) :
+              (<Dashboard setAuth={setAuth}/>) :
               (<Redirect to="/login"/>)
             }
           />
