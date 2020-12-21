@@ -1,8 +1,9 @@
 import bcrypt from "bcrypt";
 import { Client } from 'pg';
 
-import { clientConfig } from '../utils/postgres';
-import { UserDetails } from '../interfaces/userDetails';
+import { clientConfig } from './postgres';
+import { UserDetails } from '../models/userDetails';
+import { findUser } from "./findUser";
 
 const checkForValidationErrors = ({ name, email, password, confirmPassword }: UserDetails) => {
     let errors = [];
@@ -20,16 +21,19 @@ const checkForValidationErrors = ({ name, email, password, confirmPassword }: Us
 }
 
 export const register = async (userDetails: UserDetails) => {
+    // Form validation
     let validationErrors = checkForValidationErrors(userDetails);
-
     if (validationErrors.length > 0) { throw validationErrors; }
+
+    //Check if user already exists
+    const user = await findUser(userDetails.email);
+    if (user) { throw [{message: "User already registered"}]; }
 
     const hashedPassword = await bcrypt.hash(userDetails.password, 10);
 
     const databaseErrors: Error[] = [];
 
     const client = new Client(clientConfig);
-
     await client
         .connect()
         .catch( err => {

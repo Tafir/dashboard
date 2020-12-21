@@ -1,10 +1,24 @@
 import React from "react";
 
+import { UserLoginRequest } from "../../models/UserLoginRequest";
+
 export const LoginForm = () => {
     const handleSubmit = (e: any) => {
         e.preventDefault();
         
-        console.log(e.target);
+        const userDetails: UserLoginRequest = {
+            email: e.target.email.value,
+            password: e.target.password.value,
+        };
+
+        console.log(userDetails);
+        fetch(`http://localhost:8080/users/login`, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userDetails)
+        })
+            .then(res => res.json())
+            .then(res => console.log(res));
     }
 
     return (
