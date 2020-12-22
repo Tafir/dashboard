@@ -17,7 +17,7 @@ Router.get("/users/", authorisationMiddleware, async (req, res) => {
         res.send({
             status: "success",
             data: {
-                user: user
+                user: { ...user, password: null }
             }
         });
     }
