@@ -1,12 +1,36 @@
 import express from 'express';
+
 import { authorisationMiddleware } from '../middleware/authorisation';
 
 import { login } from '../utils/login';
-import { register } from '../utils/register'
+import { getUser } from '../utils/getUser';
+import { register } from '../utils/register';
 
 const Router = express.Router();
 
-Router.post("/users/register", async (req, res) => {
+Router.get("/users/", authorisationMiddleware, async (req, res) => {
+    try {
+        const userId: any = req.userId;
+        const user = await getUser(userId);
+        if (!user) { throw {message: "User not found"}; }
+
+        res.send({
+            status: "success",
+            data: {
+                user: user
+            }
+        });
+    }
+    catch (err) {
+        res.send({
+            status: "error",
+            message: "Could not retrieve user",
+            data: err
+        });
+    }
+});
+
+Router.post("/users/", async (req, res) => {
     try {
         await register(req.body);
         res.send({

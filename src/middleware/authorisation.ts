@@ -11,7 +11,7 @@ export const authorisationMiddleware: RequestHandler = async (req, res, next) =>
 
         const payload: any = jwt.verify(jwtToken, process.env.JWT_SECRET);
 
-        req.user = payload.user;
+        req.userId = payload.userId;
         next();
     }
     catch (err) {

@@ -15,7 +15,7 @@ export const RegistrationForm = () => {
         };
 
         console.log(userDetails);
-        fetch(`http://localhost:8080/users/register`, {
+        fetch(`http://localhost:8080/users`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userDetails)

@@ -1,8 +1,5 @@
 import express from "express";
 import bodyParser from "body-parser";
-import path from "path";
-import session from "express-session";
-import passport from "passport";
 import cors from 'cors';
 
 import IndexRouter from './routes/index.routes';
