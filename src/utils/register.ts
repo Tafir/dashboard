@@ -43,7 +43,7 @@ export const register = async (userDetails: UserDetails) => {
 
     await client
         .query(`INSERT INTO users (name, email, password) 
-                VALUES ('${userDetails.name}', '${userDetails.email}', '${hashedPassword}')`)
+                VALUES ($1, $2, $3)`,[userDetails.name, userDetails.email, hashedPassword])
         .then( () => { console.log(`${userDetails.email} is registered!`); })
         .catch( err => { 
             console.error("Insertion error", err.stack);

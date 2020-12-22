@@ -8,7 +8,7 @@ export const findUser = async (email: string) => {
 
     const user = await client
                         .query(`SELECT * FROM users
-                                WHERE email = '${email}'`)
+                                WHERE email = $1`, [email])
                         .then(res => {
                             return res.rows[0];
                         })

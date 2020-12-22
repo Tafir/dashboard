@@ -8,7 +8,7 @@ export const getUser = async (id: string) => {
 
     const user = await client
                         .query(`SELECT * FROM users
-                                WHERE id = '${id}'`)
+                                WHERE id = $1`, [id])
                         .then(res => {
                             return res.rows[0];
                         })
