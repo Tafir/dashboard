@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
 import { Client } from 'pg';
 
-import { clientConfig } from './postgres';
+import { clientConfig } from '../db/postgres';
 import { UserDetails } from '../models/userDetails';
-import { findUser } from "./findUser";
+import { findUser } from "../db/findUser";
 
 const checkForValidationErrors = ({ name, email, password, confirmPassword }: UserDetails) => {
     let errors = [];

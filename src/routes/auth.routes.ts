@@ -3,7 +3,7 @@ import express from 'express';
 import { authorisationMiddleware } from '../middleware/authorisation';
 
 import { login } from '../utils/login';
-import { getUser } from '../utils/getUser';
+import { getUser } from '../db/getUser';
 import { register } from '../utils/register';
 
 const Router = express.Router();
