@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import { RegistrationForm } from "./components/registration-form/registration-form.component";
-import { LoginForm } from "./components/login-form/login-form.component"
+import { LoginFormContainer } from './components/login-form/login-form.container';
 import { Dashboard } from "./components/dashboard/dashboard"
 
 import './App.css';
@@ -54,7 +54,7 @@ const App = () => {
             path="/login" 
             render={() => 
               !isAuthenticated ?
-              (<LoginForm setAuth={setAuth}/>) :
+              (<LoginFormContainer setAuth={setAuth}/>) :
               (<Redirect to="/dashboard"/>)
             }
           />

@@ -1,48 +1,41 @@
 import React from "react";
 
-import { UserLoginRequest } from "../../models/UserLoginRequest";
+import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
+import Container from 'react-bootstrap/Container';
+import Jumbotron from 'react-bootstrap/Jumbotron';
+
+import "./login-form.styles.css";
 
 // CHANGE TYPE HERE
-export const LoginForm = ({ setAuth }: any) => {
-
-    const handleSubmit = (e: any) => {
-        e.preventDefault();
-        
-        const userDetails: UserLoginRequest = {
-            email: e.target.email.value,
-            password: e.target.password.value,
-        };
-    
-        console.log(userDetails);
-        fetch(`http://localhost:8080/users/login`, {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(userDetails)
-        })
-            .then(res => res.json())
-            .then(res => { 
-                if (res.status === "error") { throw res.data.message; }
-
-                localStorage.setItem("token", res.data.token);
-                setAuth(true);
-            })
-            .catch(err => console.error(err));
-    }
-
+export const LoginForm = ({ handleSubmit, error }: any) => {
     return (
-        <div>
-            <h1>Login</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <input type="email" id="email" name="email" placeholder="Email" required/>
-                </div>
-                <div>
-                    <input type="password" id="password" name="password" placeholder="Password" required/>
-                </div>
-                <div>
-                    <input type="submit" value="Login"/>
-                </div>
-            </form>
-        </div>
+        <Container className="container">
+            <Jumbotron className="jumbotron">
+                <h1>Login</h1>
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Label>Email address</Form.Label>
+                        <Form.Control type="email" placeholder="Enter email" name="email" required/>
+                        <Form.Text className="text-muted">
+                            We'll never share your email with anyone else.
+                        </Form.Text>
+                    </Form.Group>
+                    <Form.Group controlId="formBasicPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control type="password" placeholder="Password" name="password" required/>
+                    </Form.Group>
+                    <div>
+                        <input type="submit" value="Login"/>
+                    </div>
+                </Form>
+                {error && 
+                    <Alert variant="danger" className="jumbotron-alert">
+                        <Alert.Heading>Authentication Error</Alert.Heading>
+                        <p>{error}</p>
+                    </Alert>
+                }
+            </Jumbotron>
+        </Container>
     );
 }
