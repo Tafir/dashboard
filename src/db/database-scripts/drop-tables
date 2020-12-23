@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo -u dashboard -H -- psql -d dashboard -c "DROP TABLE posts" --echo-all --set ON_ERROR_STOP=on 
+sudo -u dashboard -H -- psql -d dashboard -c "DROP TABLE users" --echo-all --set ON_ERROR_STOP=on 

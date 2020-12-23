@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo -u dashboard -H -- psql -d dashboard -f ./create-users-table.sql --echo-all --set ON_ERROR_STOP=on 
+sudo -u dashboard -H -- psql -d dashboard -f ./create-posts-table.sql --echo-all --set ON_ERROR_STOP=on 
