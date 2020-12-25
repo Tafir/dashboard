@@ -16,14 +16,14 @@ export const LoginForm = ({ handleSubmit, error }: LoginFormComponentProps) => {
             <Jumbotron className="jumbotron">
                 <h1>Login</h1>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group>
                         <Form.Label>Email address</Form.Label>
                         <Form.Control type="email" placeholder="Enter email" name="email" required/>
                         <Form.Text className="text-muted">
                             We'll never share your email with anyone else.
                         </Form.Text>
                     </Form.Group>
-                    <Form.Group controlId="formBasicPassword">
+                    <Form.Group>
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Password" name="password" required/>
                     </Form.Group>
