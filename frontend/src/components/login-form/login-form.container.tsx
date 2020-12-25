@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 
 import { UserLoginRequest } from "../../models/UserLoginRequest";
 import { LoginForm } from './login-form.component';
+import { LoginFormContainerProps } from './login-form.types';
 
-export const LoginFormContainer = ({ setAuth }: any) => {
+export const LoginFormContainer = ({ setAuth }: LoginFormContainerProps) => {
     const [error, setError] = useState("");
 
 
