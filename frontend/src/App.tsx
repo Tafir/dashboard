@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
-import { RegistrationForm } from "./components/registration-form/registration-form.component";
+import { RegistrationFormContainer } from "./components/registration-form/registration-form.container";
 import { LoginFormContainer } from './components/login-form/login-form.container';
 import { Dashboard } from "./components/dashboard/dashboard"
 
@@ -46,7 +46,7 @@ const App = () => {
             path="/register" 
             render={() => 
               !isAuthenticated ?
-              (<RegistrationForm/>) :
+              (<RegistrationFormContainer/>) :
               (<Redirect to="/dashboard"/>)
             }
           />

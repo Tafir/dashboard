@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 
@@ -19,17 +20,14 @@ export const LoginForm = ({ handleSubmit, error }: LoginFormComponentProps) => {
                     <Form.Group>
                         <Form.Label>Email address</Form.Label>
                         <Form.Control type="email" placeholder="Enter email" name="email" required/>
-                        <Form.Text className="text-muted">
-                            We'll never share your email with anyone else.
-                        </Form.Text>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Password" name="password" required/>
                     </Form.Group>
-                    <div>
-                        <input type="submit" value="Login"/>
-                    </div>
+                    <Button variant='primary' type='submit'>
+                        Login
+                    </Button>
                 </Form>
                 {error && 
                     <Alert variant="danger" className="login-jumbotron-alert">
