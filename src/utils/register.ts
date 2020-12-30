@@ -1,8 +1,6 @@
 import bcrypt from "bcrypt";
-import { Client } from 'pg';
 
-import { clientConfig } from '../db/postgres';
-import { UserDetails } from '../models/userDetails';
+import { UserDetails } from '../models/UserDetails';
 import { findUser } from "../db/findUser";
 import { createUser } from "../db/createUser";
 

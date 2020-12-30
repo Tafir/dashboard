@@ -2,11 +2,13 @@ import { Client } from 'pg';
 
 import { clientConfig } from './postgres';
 
+import { UserResponseModel } from '../models/UserResponseModel';
+
 export const getUser = async (id: string) => {
     const client = new Client(clientConfig);
     client.connect();
 
-    const user = await client
+    const user: UserResponseModel = await client
                         .query(`SELECT * FROM users
                                 WHERE id = $1`, [id])
                         .then(res => {

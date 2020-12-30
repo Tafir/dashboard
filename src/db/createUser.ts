@@ -2,7 +2,7 @@ import { Client } from 'pg';
 
 import { clientConfig } from './postgres';
 
-import { UserDetails } from '../models/userDetails';
+import { UserDetails } from '../models/UserDetails';
 
 export const createUser = async (userDetails: UserDetails, hashedPassword: string) => {
     let error: any;

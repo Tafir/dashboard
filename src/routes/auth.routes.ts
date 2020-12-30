@@ -10,14 +10,13 @@ const Router = express.Router();
 
 Router.get("/users/", authorisationMiddleware, async (req, res) => {
     try {
-        const userId: any = req.userId;
-        const user = await getUser(userId);
+        const user = await getUser(req.userId);
         if (!user) { throw {message: "User not found"}; }
 
         res.send({
             status: "success",
             data: {
-                user: { ...user, password: null }
+                user: user
             }
         });
     }
