@@ -2,26 +2,26 @@ import { Client } from 'pg';
 
 import { clientConfig } from './postgres';
 
-import { UserResponse } from '../models/UserResponse';
+import { PostResponse } from '../models/PostResponse';
 
-export const getUser = async (id: string) => {
+export const getPosts = async (userId: string) => {
     const client = new Client(clientConfig);
     client.connect();
 
-    const user: UserResponse = await client
-                        .query(`SELECT * FROM users
-                                WHERE id = $1`, [id])
+    const posts: PostResponse[] = await client
+                        .query(`SELECT * FROM posts
+                                WHERE user_id = $1`, [userId])
                         .then(res => {
-                            return res.rows[0];
+                            return res.rows;
                         })
                         .catch(err => {
-                            console.error("User not found", err.stack)
+                            console.error("Posts not found", err.stack)
                             return null;
                         })
                         .finally(() => {
                             client.end()
                         });
     
-    console.log(user)
-    return user;
+    console.log(posts)
+    return posts;
 };
