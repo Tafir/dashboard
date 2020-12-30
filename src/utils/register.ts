@@ -4,6 +4,7 @@ import { Client } from 'pg';
 import { clientConfig } from '../db/postgres';
 import { UserDetails } from '../models/userDetails';
 import { findUser } from "../db/findUser";
+import { createUser } from "../db/createUser";
 
 const checkForValidationErrors = ({ name, email, password, confirmPassword }: UserDetails) => {
     let errors = [];
@@ -33,23 +34,12 @@ export const register = async (userDetails: UserDetails) => {
 
     const databaseErrors: Error[] = [];
 
-    const client = new Client(clientConfig);
-    await client
-        .connect()
-        .catch( err => {
-            console.error("Database connection error", err.stack);
-            databaseErrors.push(err);
-        });
-
-    await client
-        .query(`INSERT INTO users (name, email, password) 
-                VALUES ($1, $2, $3)`,[userDetails.name, userDetails.email, hashedPassword])
-        .then( () => { console.log(`${userDetails.email} is registered!`); })
-        .catch( err => { 
-            console.error("Insertion error", err.stack);
-            databaseErrors.push(err);
-        })
-        .finally( () => { client.end() });
+    try {
+        await createUser(userDetails, hashedPassword);
+    }
+    catch (error){
+        databaseErrors.push(error);
+    }
         
     if (databaseErrors.length > 0) { throw databaseErrors; }
 }
