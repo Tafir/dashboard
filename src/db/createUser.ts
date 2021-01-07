@@ -20,7 +20,7 @@ export const createUser = async (userDetails: UserDetails, hashedPassword: strin
                 VALUES ($1, $2, $3)`,[userDetails.name, userDetails.email, hashedPassword])
         .then( () => { console.log(`${userDetails.email} is registered!`); })
         .catch( err => { 
-            console.error("Insertion error", err.stack);
+            console.error("User insertion error", err.stack);
             error = err;
         })
         .finally( () => { client.end() });
