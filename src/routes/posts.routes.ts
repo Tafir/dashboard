@@ -28,9 +28,10 @@ Router.get( "/posts", authorisationMiddleware, async ( req, res ) => {
     }
 });
 
-Router.post("/posts/", authorisationMiddleware, async (req, res) => {
+Router.post("/posts", authorisationMiddleware, async (req, res) => {
     try {
-        await createPost(req.body)
+        console.log(req.body);
+        await createPost(req.body, req.userId);
         res.send({
             status: "success", 
             data: { message: "Post successfully created" }

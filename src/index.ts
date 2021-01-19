@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cors from 'cors';
 
 import IndexRouter from './routes/index.routes';
+import PostsRouter from './routes/posts.routes';
 import AuthRouter from './routes/auth.routes';
 
 const app = express();
@@ -15,7 +16,7 @@ app.use(cors({
     optionsSuccessStatus: 200 // For legacy browser support
 }));
 
-app.use(IndexRouter, AuthRouter);
+app.use(IndexRouter, AuthRouter, PostsRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

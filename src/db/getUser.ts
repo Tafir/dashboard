@@ -22,6 +22,5 @@ export const getUser = async (id: string) => {
                             client.end()
                         });
     
-    console.log(user)
     return user;
 };

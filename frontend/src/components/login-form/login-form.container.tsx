@@ -16,7 +16,6 @@ export const LoginFormContainer = ({ setAuth }: LoginFormContainerProps) => {
             password: e.target.password.value,
         };
     
-        console.log(userDetails);
         fetch(`http://localhost:8080/users/login`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },

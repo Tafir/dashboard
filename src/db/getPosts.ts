@@ -22,6 +22,5 @@ export const getPosts = async (userId: string) => {
                             client.end()
                         });
     
-    console.log(posts)
     return posts;
 };

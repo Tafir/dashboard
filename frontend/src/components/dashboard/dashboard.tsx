@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { NewPostPopup } from '../new-post-popup/new-post-popup.component';
+
 export const Dashboard = ({ setAuth }: any) => {
 
     const [name, setName] = useState("");
@@ -11,7 +13,6 @@ export const Dashboard = ({ setAuth }: any) => {
         });
   
         const parseData = await res.json();
-        console.log(parseData);
         setName(parseData.data.user.name);
       } catch (err) {
         console.error(err.message);
@@ -37,6 +38,8 @@ export const Dashboard = ({ setAuth }: any) => {
         <div>
             <h1>Hello {name}</h1>
             <button onClick={logout}>Sign out</button>
+            <NewPostPopup/>
+
         </div>
     )
 }
