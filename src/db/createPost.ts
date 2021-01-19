@@ -21,8 +21,6 @@ export const createPost = async (postDetails: PostDetails, userId: string) => {
     const dateCreated = new Date(); // Inappropriate date format? Will PSQL convert to DATE?
     const dateUpdated = dateCreated;
 
-    console.log(dateCreated);
-    console.log(postDetails.dateDue);
     // Insertion
 
     await client
