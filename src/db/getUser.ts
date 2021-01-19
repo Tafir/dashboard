@@ -9,7 +9,7 @@ export const getUser = async (id: string) => {
     client.connect();
 
     const user: UserResponse = await client
-                        .query(`SELECT * FROM users
+                        .query(`SELECT id, name, email FROM users
                                 WHERE id = $1`, [id])
                         .then(res => {
                             return res.rows[0];
