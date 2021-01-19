@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { NewPostPopup } from '../new-post-popup/new-post-popup.component';
+import { PostsTable } from '../posts-table/posts-table.component';
 
 export const Dashboard = ({ setAuth }: any) => {
 
@@ -39,6 +40,7 @@ export const Dashboard = ({ setAuth }: any) => {
             <h1>Hello {name}</h1>
             <button onClick={logout}>Sign out</button>
             <NewPostPopup/>
+            <PostsTable/>
 
         </div>
     )
